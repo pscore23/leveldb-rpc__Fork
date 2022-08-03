@@ -1,6 +1,7 @@
 # vim: set fileencoding=utf8
 '''XML-RPC server for leveldb
 '''
+
 import argparse
 from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
 
