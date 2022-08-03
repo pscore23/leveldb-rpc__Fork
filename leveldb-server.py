@@ -6,8 +6,10 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
 
 import leveldb
 
+
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
+
 
 class LevelDBMethod(object):
     def __init__(self, datadir):
@@ -19,17 +21,18 @@ class LevelDBMethod(object):
     def get(self, key):
         try:
             return self.db.Get(key)
-        except KeyError, err:
+        except KeyError:
             return ''
 
     def delete(self, key):
         return self.db.Delete(key)
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, nargs='?', default=8000)
     parser.add_argument('--datadir', type=str, nargs='?', default='data')
-    args =  parser.parse_args()
+    args = parser.parse_args()
 
     # Create server
     server = SimpleXMLRPCServer(("localhost", args.port),
@@ -38,6 +41,7 @@ def main():
     server.register_introspection_functions()
     server.register_instance(LevelDBMethod(args.datadir))
     server.serve_forever()
+
 
 if __name__ == '__main__':
     main()
